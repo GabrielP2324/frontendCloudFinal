@@ -1,7 +1,12 @@
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
-const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost'
+// Mocked user for testing
+const MOCK_USER = {
+  id: '1',
+  email: 'email@email.com',
+  password: 'S3cur3P@ssw0rd!'  // In a real app, this would be hashed
+}
 
 export const authOptions = {
   providers: [
@@ -13,19 +18,12 @@ export const authOptions = {
       },
       async authorize(credentials) {
         try {
-          const response = await fetch(`${backendUrl}/api/auth/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(credentials),
-          })
-          
-          const data = await response.json()
-          
-          if (response.ok && data) {
+          // Mock authentication
+          if (credentials.email === MOCK_USER.email && credentials.password === MOCK_USER.password) {
             return {
-              id: data.id,
-              email: data.email,
-              token: data.token
+              id: MOCK_USER.id,
+              email: MOCK_USER.email,
+              token: 'mock_jwt_token'
             }
           }
           return null

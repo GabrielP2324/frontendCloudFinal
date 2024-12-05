@@ -11,7 +11,6 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_BACKEND_URL=http://your-backend-ec2-ip # Replace with your backend EC2 public IP or domain
     restart: always
 
   nginx:
